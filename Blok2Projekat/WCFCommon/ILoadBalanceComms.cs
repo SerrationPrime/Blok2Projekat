@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WCFCommon
 {
     [ServiceContract]
-    interface ILoadBalanceComms
+    public interface ILoadBalanceComms
     {
         [OperationContract]
         bool Modify(ModifyType type, string id, string newVersion);
