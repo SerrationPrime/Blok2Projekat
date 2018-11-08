@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +56,37 @@ namespace DatabaseIO
         public bool Delete(string id)
         {
             throw new NotImplementedException();
+        }
+        /// <summary>
+        /// Proverava da li se u redu odredjenom sa id, u bazi, sid poklapa sa sid prosledjenim od LB 
+        /// </summary>
+        /// <param name="id">definise red u bazi nad kojim se vrsi provera</param>
+        /// <param name="sid">sid korisnika koji zeli da pristupi bazi</param>
+        /// <returns></returns>
+        public bool HasRightToModify(string id, string sid)
+        {
+            bool result = false;
+
+            using (StreamReader sr = new StreamReader(File.OpenRead("Database.txt")))
+            {
+                string currentId = String.Empty;
+                string line = String.Empty;
+                string[] parts = { };
+
+                while((line = sr.ReadLine()) != null && !currentId.Equals(id))
+                {
+                    parts = line.Split(';');
+                    // id ; sid ; timestemp ; detail 
+                    // 0     1        2         3
+                    currentId = parts[0];
+                }
+
+                string CurrentSID = parts[1];
+                if (CurrentSID.Equals(sid))
+                    result = true;               
+            }
+
+            return result;
         }
     }
 }

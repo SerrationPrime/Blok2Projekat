@@ -1,0 +1,10 @@
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\bin\Debug\LoadBalancer.exe.config
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\bin\Debug\LoadBalancer.exe
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\bin\Debug\LoadBalancer.pdb
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\bin\Debug\WCFCommon.dll
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\bin\Debug\WCFCommon.pdb
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csprojResolveAssemblyReference.cache
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csproj.CoreCompileInputs.cache
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csproj.CopyComplete
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.exe
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.pdb
