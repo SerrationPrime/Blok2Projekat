@@ -1,4 +1,4 @@
-﻿using DataBaseIO;
+﻿using DatabaseIO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -40,7 +40,7 @@ namespace DatabaseIO
                 long sanChk = new FileInfo(fileName).Length;
                 if (new FileInfo(fileName).Length != 0)
                 {
-                    i = Int32.Parse(File.ReadLines(fileName).Last().Split(';')[0]);
+                    i = Int32.Parse(File.ReadLines(fileName).Last().Split(';')[0].Split(':')[1]);
                     i++;
                 }
                 else
@@ -271,16 +271,19 @@ namespace DatabaseIO
             {
                 l = line.Split(';');
                 l2 = l[0].Split(':');
-                if (id.Equals(l2[1]))
+                if (l2.Length == 2)
                 {
-                    lineToChange = line;
-                    obrisan = true;
-                    deletingLog.WriteEntry("Data for Requested Id found");
-                    break;
-                }
-                else
-                {
-                    obrisan = false;
+                    if (id.Equals(l2[1]))
+                    {
+                        lineToChange = line;
+                        obrisan = true;
+                        deletingLog.WriteEntry("Data for Requested Id found");
+                        break;
+                    }
+                    else
+                    {
+                        obrisan = false;
+                    }
                 }
             }
 
@@ -327,17 +330,21 @@ namespace DatabaseIO
 
             chkString = data.Split(';');
 
-            Regex r1 = new Regex(@"SID:[A-Za-z0-9_'-'\s\p{P}]");
-            Regex r2 = new Regex(@"Timestamp:[A-Za-z0-9_'-'':'\s\p{P}]");
-            Regex r3 = new Regex(@"Details:[A-Za-z0-9_\s\p{P}]");
-
-            /*var SANCHK1 = r1.IsMatch(chkString[0]);
-            var SANCHK2 = r2.IsMatch(chkString[1]);
-            var SANCHK3 = r3.IsMatch(chkString[2]);*/
-
-            if (r1.Match(chkString[0]).Success && r2.Match(chkString[1]).Success && r3.Match(chkString[2]).Success)
+            if (chkString.Length == 4)
             {
-                proveren = true;
+                Regex r1 = new Regex(@"SID:[A-Za-z0-9_'-'\s\p{P}]");
+                Regex r2 = new Regex(@"Timestamp:[A-Za-z0-9_'-'':'\s\p{P}]");
+                Regex r3 = new Regex(@"Details:[A-Za-z0-9_\s\p{P}]");
+
+                if (r1.Match(chkString[0]).Success && r2.Match(chkString[1]).Success && r3.Match(chkString[2]).Success)
+                {
+                    proveren = true;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ne pravilno poslat podatak.");
+                Console.WriteLine("Podatak mora biti formata SID:X;Timestamp:Y;Details:Z");
             }
 
             return proveren;
