@@ -8,3 +8,15 @@ C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\obj\Debug\Lo
 C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csproj.CopyComplete
 C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.exe
 C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.pdb
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\LoadBalancer.exe.config
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\LoadBalancer.exe
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\LoadBalancer.pdb
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\DatabaseIO.dll
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\WCFCommon.dll
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\DatabaseIO.pdb
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\WCFCommon.pdb
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csprojAssemblyReference.cache
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csproj.CoreCompileInputs.cache
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csproj.CopyComplete
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.exe
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.pdb

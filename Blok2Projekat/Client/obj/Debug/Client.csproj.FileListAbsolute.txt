@@ -7,3 +7,13 @@ C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\Client\obj\Debug\Client.p
 C:\Users\Administrator\Desktop\Blok2Projekat-master_sreda\Blok2Projekat\Client\bin\Debug\Client.exe.config
 C:\Users\Administrator\Desktop\Blok2Projekat-master_sreda\Blok2Projekat\Client\obj\Debug\Client.exe
 C:\Users\Administrator\Desktop\Blok2Projekat-master_sreda\Blok2Projekat\Client\obj\Debug\Client.pdb
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Client\bin\Debug\Client.exe.config
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Client\bin\Debug\Client.exe
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Client\bin\Debug\Client.pdb
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Client\bin\Debug\WCFCommon.dll
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Client\bin\Debug\WCFCommon.pdb
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Client\obj\Debug\Client.csprojAssemblyReference.cache
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Client\obj\Debug\Client.csproj.CopyComplete
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Client\obj\Debug\Client.exe
+C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Client\obj\Debug\Client.pdb

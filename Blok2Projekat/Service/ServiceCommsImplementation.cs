@@ -14,7 +14,10 @@ namespace Service
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
     public class ServiceCommsImplementation : IServiceComms
     {
-        DatabaseAccess accessPoint = new DatabaseAccess("Database.txt");
+        /// <summary>
+        /// 
+        /// </summary>
+        DatabaseAccess accessPoint = new DatabaseAccess("../../../Database.txt");
         ILoadBalanceComms proxy;
 
         public delegate void DBChangeEventHandler(object sender, string eventDescription);
@@ -112,13 +115,6 @@ namespace Service
         public void CallbackInvoker(object sender, string eventDescription)
         {
             ServiceCallback.PublishChanges(eventDescription);
-        }
-    }
-    public class ServiceCallback : IServiceCallback
-    {
-        public void PublishChanges(string eventDescription)
-        {
-            Console.WriteLine("Database change: " + eventDescription);
         }
     }
 }

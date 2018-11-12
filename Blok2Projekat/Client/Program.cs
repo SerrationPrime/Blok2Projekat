@@ -16,14 +16,15 @@ namespace Client
 
             Thread th = new Thread(new ThreadStart(EC.generateEvent));
 
-
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Mode = SecurityMode.Transport;
             binding.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
-            string address = "net.tcp://localhost:9999/ServerService";
+            string address = "net.tcp://localhost:9292/ServiceComms";
 
-            using (WCFClient proxy = new WCFClient(binding, new EndpointAddress(new Uri(address))))
+            InstanceContext instanceContext = new InstanceContext(new ServiceCallback());
+
+            using (WCFClient proxy = new WCFClient(binding, new EndpointAddress(new Uri(address)), instanceContext))
             {
                 int kod = -1;
                 string id;

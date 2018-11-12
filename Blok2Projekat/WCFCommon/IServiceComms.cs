@@ -18,7 +18,7 @@ namespace WCFCommon
         /// Read koji se poziva iz klijenta. SID se NE prosledjuje; utvrdjuje se na strani servisa.
         /// </summary>
         /// <returns>String koji sadrzi svaki red vezan za datog klijenta.</returns>
-        [OperationContract(IsOneWay = true)]
+        [OperationContract(IsOneWay = false)]
         string Read();
         /// <summary>
         /// Zahtev za modifikaciju baze podataka sa klijentske strane.
@@ -27,7 +27,7 @@ namespace WCFCommon
         /// <param name="id">ID podatka koji treba modifikovati.</param>
         /// <param name="newVersion">Zeljeni novi sadrzaj tog podatka. Formatiranje se radi na strani klijenta.</param>
         /// <returns></returns>
-        [OperationContract(IsOneWay = true)]
+        [OperationContract(IsOneWay = false)]
         bool Modify(ModifyType type, string id, string newVersion);
         /// <summary>
         /// Zahtev za prijavu na promene baze podataka. Ispisuje svaku novu izmenu na bazi podataka na konzolu posle uspesne konekcije.
@@ -42,7 +42,7 @@ namespace WCFCommon
         /// </summary>
         /// <param name="generatedEvent">Nasumice generisan Event() iz resursnog fajla</param>
         /// <returns>Vraca true ako je dogadjaj uspesno upisan, inace false.</returns>
-        [OperationContract(IsOneWay = true)]
+        [OperationContract(IsOneWay = false)]
         bool Event(string generatedEvent);
     }
 

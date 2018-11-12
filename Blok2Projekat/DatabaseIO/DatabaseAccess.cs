@@ -16,7 +16,7 @@ namespace DatabaseIO
 
     public class DatabaseAccess
     {
-        public static int i;
+        public static int currentId;
         private string fName;
         /// <summary>
         /// Konstruktor DatabaseAccess.
@@ -28,7 +28,7 @@ namespace DatabaseIO
             if (!File.Exists(fileName))
             {
                 var myFile = File.Create(fileName);
-                i = 0;
+                currentId = 0;
                 myFile.Close();
                 if (!EventLog.SourceExists("MySource"))
                 {
@@ -40,11 +40,11 @@ namespace DatabaseIO
                 long sanChk = new FileInfo(fileName).Length;
                 if (new FileInfo(fileName).Length != 0)
                 {
-                    i = Int32.Parse(File.ReadLines(fileName).Last().Split(';')[0].Split(':')[1]);
-                    i++;
+                    currentId = Int32.Parse(File.ReadLines(fileName).Last().Split(';')[0].Split(':')[1]);
+                    currentId++;
                 }
                 else
-                    i = 0;
+                    currentId = 0;
                 if (!EventLog.SourceExists("MySource"))
                 {
                     EventLog.CreateEventSource("MySource", "MyNewLog");
@@ -157,13 +157,13 @@ namespace DatabaseIO
             {
                 using (TextWriter tw = new StreamWriter(fName, true))
                 {
-                    upisivanString = "ID:" + i + ";" + data;
+                    upisivanString = "ID:" + currentId + ";" + data;
 
                     tw.WriteLine(upisivanString);
-                    i++;
+                    currentId++;
 
                     napisano = true;
-                    writeString = "Data:" + data + "with an Id: " + (i - 1) + " Successfully wrtitten in the database";
+                    writeString = "Data:" + data + "with an Id: " + (currentId - 1) + " Successfully written in the database";
                     writingLog.WriteEntry(writeString);
 
                     tw.Close();

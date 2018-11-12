@@ -8,12 +8,12 @@ using WCFCommon;
 
 namespace Client
 {
-    public class WCFClient : ChannelFactory<IServiceComms>, IServiceComms, IDisposable
+    public class WCFClient : DuplexChannelFactory<IServiceComms>, IServiceComms, IDisposable
     {
         IServiceComms factory;
 
-        public WCFClient(NetTcpBinding binding, EndpointAddress address)
-            : base(binding, address)
+        public WCFClient(NetTcpBinding binding, EndpointAddress address, InstanceContext instanceContext)
+            : base(instanceContext, binding, address)
         {
             factory = this.CreateChannel();
         }
@@ -24,6 +24,7 @@ namespace Client
             try
             {
                 provera = factory.Event(generatedEvent);
+                //Event je uvek dozvoljen
                 if(provera)
                     Console.WriteLine("Event() allowed.");
             }
@@ -42,6 +43,8 @@ namespace Client
                 provera = factory.Modify(type, id, newVersion);
                 if (provera)
                     Console.WriteLine("Modify() allowed.");
+                else
+                    Console.WriteLine("Modify() not allowed.");
             }
             catch (Exception e)
             {
@@ -56,7 +59,10 @@ namespace Client
             try
             {
                 provera = factory.Read();
-                Console.WriteLine("Event() allowed.");
+                if (!String.IsNullOrEmpty(provera))
+                    Console.WriteLine("Read() allowed.");
+                else
+                    Console.WriteLine("Read() not allowed.");
             }
             catch (Exception e)
             {
@@ -73,6 +79,8 @@ namespace Client
                 provera = factory.Subscribe();
                 if (provera)
                     Console.WriteLine("Subscribe() allowed.");
+                else
+                    Console.WriteLine("Subscribe() not allowed.");
             }
             catch (Exception e)
             {
