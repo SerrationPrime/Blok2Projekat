@@ -1,0 +1,9 @@
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\Client\bin\Debug\Client.exe.config
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\Client\bin\Debug\Client.exe
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\Client\bin\Debug\Client.pdb
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\Client\obj\Debug\Client.exe
+C:\Users\Ja\Desktop\Blok2Projekat-master\Blok2Projekat\Client\obj\Debug\Client.pdb
+C:\Users\Administrator\Desktop\Blok2Projekat-master_sreda\Blok2Projekat\Client\bin\Debug\Client.exe.config
+C:\Users\Administrator\Desktop\Blok2Projekat-master_sreda\Blok2Projekat\Client\obj\Debug\Client.exe
+C:\Users\Administrator\Desktop\Blok2Projekat-master_sreda\Blok2Projekat\Client\obj\Debug\Client.pdb

@@ -1,4 +1,4 @@
-﻿using DatabaseIO;
+using DatabaseIO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -317,10 +317,28 @@ namespace DatabaseIO
 
         public bool HasRightToModify(string id, string sid)
         {
-            bool pravo = false;
+            bool result = false;
 
+            using (StreamReader sr = new StreamReader(File.OpenRead("Database.txt")))
+            {
+                string currentId = String.Empty;
+                string line = String.Empty;
+                string[] parts = { };
 
-            return pravo;
+                while((line = sr.ReadLine()) != null && !currentId.Equals(id))
+                {
+                    parts = line.Split(';');
+                    // id ; sid ; timestemp ; detail 
+                    // 0     1        2         3
+                    currentId = parts[0];
+                }
+
+                string CurrentSID = parts[1];
+                if (CurrentSID.Equals(sid))
+                    result = true;               
+            }
+
+            return result;
         }
 
         public bool CheckData(string data)
