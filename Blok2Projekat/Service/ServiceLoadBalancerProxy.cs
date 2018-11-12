@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -8,7 +8,7 @@ using WCFCommon;
 
 namespace Service
 {
-    class ServiceLoadBalancerProxy : ChannelFactory<ILoadBalanceComms>, IDisposable, ILoadBalanceComms
+    public class ServiceLoadBalancerProxy : ChannelFactory<ILoadBalanceComms>, IDisposable, ILoadBalanceComms
     {
         ILoadBalanceComms factory;
 
@@ -31,8 +31,8 @@ namespace Service
             {
                 //using (ServiceSecurityContext.Current.WindowsIdentity.Impersonate())
                 //{
-                    result = factory.Modify(type, id, newVersion);
-               //}
+                result = factory.Modify(type, id, newVersion);
+                //}
             }
             catch (Exception e)
             {
