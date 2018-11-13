@@ -22,3 +22,17 @@ C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Service\bin\Debug\Da
 C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Service\bin\Debug\UserLogic.pdb
 C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Service\bin\Debug\WCFCommon.pdb
 C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\Service\obj\Debug\Service.csproj.CopyComplete
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\bin\Debug\Service.exe.config
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\bin\Debug\Service.exe
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\bin\Debug\Service.pdb
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\bin\Debug\DatabaseIO.dll
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\bin\Debug\UserLogic.dll
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\bin\Debug\WCFCommon.dll
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\bin\Debug\DatabaseIO.pdb
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\bin\Debug\UserLogic.pdb
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\bin\Debug\WCFCommon.pdb
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\obj\Debug\Service.csprojAssemblyReference.cache
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\obj\Debug\Service.csproj.CoreCompileInputs.cache
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\obj\Debug\Service.csproj.CopyComplete
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\obj\Debug\Service.exe
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\obj\Debug\Service.pdb

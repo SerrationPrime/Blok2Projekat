@@ -20,3 +20,15 @@ C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Deb
 C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csproj.CopyComplete
 C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.exe
 C:\Users\Milan\Documents\GitHub\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.pdb
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\LoadBalancer.exe.config
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\LoadBalancer.exe
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\LoadBalancer.pdb
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\DatabaseIO.dll
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\WCFCommon.dll
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\DatabaseIO.pdb
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\bin\Debug\WCFCommon.pdb
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csprojAssemblyReference.cache
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csproj.CoreCompileInputs.cache
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.csproj.CopyComplete
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.exe
+C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\LoadBalancer\obj\Debug\LoadBalancer.pdb

@@ -26,69 +26,71 @@ namespace Client
 
             using (WCFClient proxy = new WCFClient(binding, new EndpointAddress(new Uri(address)), instanceContext))
             {
-                int kod;
+                int code;
                 string id;
                 string text = "";
 
                 
                 th.Start();
 
+                Console.ReadLine();
+
                 while (true)
                 {
-                    kod = -1;
+                    code = -1;
                     Console.WriteLine("1. Read()");
                     Console.WriteLine("2. Modify()");
                     Console.WriteLine("3. Subscribe()");
                     Console.WriteLine("0. EXIT");
-                    Console.WriteLine("\nUnesite kod operacije:");
+                    Console.WriteLine("\nEnter the operation code:");
 
-                    int operacija = Int32.Parse(Console.ReadLine());
+                    int op = Int32.Parse(Console.ReadLine());
 
-                    if (operacija == 0)
+                    if (op == 0)
                         break;
 
-                    switch (operacija)
+                    switch (op)
                     {
                         case 0:
-                            Console.WriteLine("Izlaz iz aplikacije...");
+                            Console.WriteLine("Exit the application...");
                             break;
                         case 1:
-                            Console.WriteLine("Pokusavamo pristup bazi...\n");
+                            Console.WriteLine("Trying to access the database...\n");
                             Console.Write(proxy.Read());
                             break;
                         case 2:
                             Console.WriteLine("1. Edit");
                             Console.WriteLine("2. Delete");
-                            kod = Int32.Parse(Console.ReadLine());
-                            if (kod == 1)
+                            code = Int32.Parse(Console.ReadLine());
+                            if (code == 1)
                             {
-                                Console.WriteLine("Unesite ID podatka koji editujete:");
+                                Console.WriteLine("Enter the ID data that changes:");
                                 id = Console.ReadLine();
-                                Console.WriteLine("Unesite novi text:");
+                                Console.WriteLine("Enter new text:");
                                 text = Console.ReadLine();
-                                string poruka = "";
-                                poruka += "Timestamp:" + DateTime.Now.ToString() + ";Details:" + text + ";";
-                                proxy.Modify(ModifyType.Edit, id, poruka);
+                                string message = "";
+                                message += "Timestamp:" + DateTime.Now.ToString() + ";Details:" + text + ";";
+                                proxy.Modify(ModifyType.Edit, id, message);
                             }
-                            else if (kod == 2)
+                            else if (code == 2)
                             {
-                                Console.WriteLine("Unesite ID podatka koji se brise:");
+                                Console.WriteLine("Enter the ID data that delete:");
                                 id = Console.ReadLine();
                                 proxy.Modify(ModifyType.Delete, id, text);
                             }
                             else
-                                Console.WriteLine("Uneli ste nepostojeci kod.");
+                                Console.WriteLine("You entered a non-existent code.");
                             break;
                         case 3:
                             proxy.Subscribe();
                             break;
                         default:
-                            Console.WriteLine("Uneli ste nepostojecu operaciju.");
+                            Console.WriteLine("You entered a non-existent operation.");
                             break;
                     }
                 }
 
-                Console.WriteLine("Pritisni enter za izlaz.");
+                Console.WriteLine("Press <enter> to exit.");
                 Console.ReadLine();
             }
         }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using WCFCommon;
 
 namespace Client
@@ -20,10 +16,10 @@ namespace Client
 
         public bool Event(string generatedEvent)
         {
-            bool provera = false;
+            bool check = false;
             try
             {
-                provera = factory.Event(generatedEvent);
+                check = factory.Event(generatedEvent);
                 //Event je uvek dozvoljen
                 //if(provera)
                     //Console.WriteLine("Event() allowed.");
@@ -32,16 +28,16 @@ namespace Client
             {
                 Console.WriteLine("Error while trying to Event(). {0}", e.Message);
             }
-            return provera;
+            return check;
         }
 
         public bool Modify(ModifyType type, string id, string newVersion)
         {
-            bool provera = false;
+            bool check = false;
             try
             {
-                provera = factory.Modify(type, id, newVersion);
-                if (provera)
+                check = factory.Modify(type, id, newVersion);
+                if (check)
                     Console.WriteLine("Modify() allowed.");
                 else
                     Console.WriteLine("Modify() not allowed.");
@@ -50,16 +46,16 @@ namespace Client
             {
                 Console.WriteLine("Error while trying to Modify(). {0}", e.Message);
             }
-            return provera;
+            return check;
         }
 
         public string Read()
         {
-            string provera = "";
+            string check = "";
             try
             {
-                provera = factory.Read();
-                if (!String.IsNullOrEmpty(provera))
+                check = factory.Read();
+                if (!String.IsNullOrEmpty(check))
                     Console.WriteLine("Read() allowed.");
                 else
                     Console.WriteLine("Read() not allowed.");
@@ -68,16 +64,16 @@ namespace Client
             {
                 Console.WriteLine("Error while trying to Read(). {0}", e.Message);
             }
-            return provera;
+            return check;
         }
 
         public bool Subscribe()
         {
-            bool provera = false;
+            bool check = false;
             try
             {
-                provera = factory.Subscribe();
-                if (provera)
+                check = factory.Subscribe();
+                if (check)
                     Console.WriteLine("Subscribe() allowed.");
                 else
                     Console.WriteLine("Subscribe() not allowed.");
@@ -86,7 +82,7 @@ namespace Client
             {
                 Console.WriteLine("Error while trying to Subscribe(). {0}", e.Message);
             }
-            return provera;
+            return check;
         }
     }
 }
