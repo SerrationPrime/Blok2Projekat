@@ -1,4 +1,4 @@
-﻿using DatabaseIO;
+using DatabaseIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,43 +50,51 @@ namespace Service
             {
                 return false;
             }
-            DBChangeEvent(this, "User with SID " + GetSid() + "added event: " + generatedEvent + ".");
+            if (DBChangeEvent!=null)
+                DBChangeEvent(this, "User with SID " + GetSid() + " added event: " + generatedEvent + ".");
             return true;     
         }
-
         public bool Modify(ModifyType type, string id, string newVersion)
         {
+            bool result = false;
             if (HasPermission(Permission.Modify))
             {
                 try
                 {
-                    proxy.Modify(type, id, newVersion);
+                    result = proxy.Modify(type, id, newVersion);
                 }
                 catch
                 {
-                    return false;
+                    return result;
                 }
-                
+
             }
-            if (type == ModifyType.Edit)
+            else return result;
+            if (DBChangeEvent != null)
             {
-                DBChangeEvent(this, "User with SID " + GetSid() + "modified event with ID " + id + "to new value" + newVersion + ".");
+                if (type == ModifyType.Edit)
+                {
+                    DBChangeEvent(this, "User with SID " + GetSid() + " modified event with ID " + id + " to new value " + newVersion + ".");
+                }
+                else
+                {
+                    DBChangeEvent(this, "User with SID " + GetSid() + " deleted event with ID " + id + ".");
+                }
             }
-            else
-            {
-                DBChangeEvent(this, "User with SID " + GetSid() + "deleted event with ID " + id + ".");
-            }
-            
-            return true;
+            return result;
         }
 
         public string Read()
         {
-            if (HasPermission(Permission.Read))
+            if (HasPermission(Permission.Supervise))
+            {
+                return accessPoint.Read("");
+            }
+            else if (HasPermission(Permission.Read))
             {
                 return accessPoint.Read(GetSid());
             }
-            else return "No read permission.";
+            else return "No read permission.\n";
         }
 
         public bool Subscribe()
@@ -103,7 +111,7 @@ namespace Service
 
         bool HasPermission(Permission perm)
         {
-            CustomPrincipal currUser = ServiceSecurityContext.Current.PrimaryIdentity as CustomPrincipal;
+            CustomPrincipal currUser = new CustomPrincipal(ServiceSecurityContext.Current.WindowsIdentity);
             return currUser.HasPermission(perm.ToString());
         }
 

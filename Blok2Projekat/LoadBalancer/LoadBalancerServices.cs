@@ -1,4 +1,4 @@
-﻿using DatabaseIO;
+using DatabaseIO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,17 +12,37 @@ using WCFCommon;
 
 namespace LoadBalancer
 {
+    //TODO: na pocetku rada LB-a inicijalizuj sve liste na pocetne vrednosti (ili pri koriscenju, ako nije prazna, nekase napravi.)
+    public struct Argument
+    {
+        public ModifyType type;
+        public string id;
+        public string data;
+
+        public Argument(ModifyType modifyType, string id1, string data1)
+        {
+            type = modifyType;
+            id = id1;
+            data = data1;
+        }
+
+        public override string ToString()
+        {
+            return type.ToString() + " " + id + " " + data;
+        }
+    };
+
     public class LoadBalancerServices : ILoadBalanceComms
     {
-        //List<Task> tasks = new List<Task>();
-        List<bool> IsBusy = new List<bool>();   //pravim 4 procesa i 4 bool-a, test
-        //dobro je napraviti i listu int-ova za povratne vrednosti. Inicijalno je postavljena na -1. Worker obavi posao i ako je uspesan, postavi vrednost na 1, ako je neuspesan, postavi vrednost na 0. Modify proveri vrednost za datog workera i vrati vrednost na -1, (inace je nije procitao). Vrati odgovazrajucu povratnu vrednost.
+        public static List<Task<bool>> tasks = new List<Task<bool>>();
+        public static List<bool> retVals = new List<bool>() { false, false, false, false };
+        public static List<Argument> arguments = new List<Argument>();
+        public static List<bool> isBusy = new List<bool>() { false, false, false, false };   //pravim 4 procesa i 4 bool-a, test
+        public static int currentIdx = 0;
+        private int _maxNbOftasks = 4;
 
-        //Ako su svi workeri zauzeti, i klijent posalje zahtev, on nigde nece otici, niti ce se sacuvati
-        //znaci da mora postojati neka lista/red izmedju klijenta i korisnika u koji ce se stavljati zahtevi koje service posalje. a LB ce iz njih da cita zahtev i salje ga workeru.
+        private DatabaseAccess _dbAccess = new DatabaseAccess("../../../Database.txt");
 
-        private DatabaseAccess _dbAccess = new DatabaseAccess("Database.txt");
-        
         /// <summary>
         /// Stara se o obradi korisnickog zahteva. Proverava njegova prava na pristup i salje zahtev ka odgovarajucem workeru na obradu.
         /// </summary>
@@ -30,24 +50,20 @@ namespace LoadBalancer
         /// <param name="id">Id reda u bazi, nad kojim se vrsi izmena</param>
         /// <param name="newVersion">Podatak za upis u bazu</param>
         /// <returns>True ako je izmena uspesna. Inace false.</returns>
+        [OperationBehavior(Impersonation = ImpersonationOption.Required)]
         public bool Modify(ModifyType type, string id, string newVersion)
         {
-            //zelim da ga pozivam kao Client, kako bi mogla da proverim njegov sid
-            // ako je SID iz tog reda == SID mog klijenta koga impersonifikujem -> IMA privilegiju da uradi modifikaciju.
-            // posto ima privilegiju -> pozovi upis/brisanje iz baze  (metode koje su implementirane u DataIO)
-            bool result = false;
-            //bool retValFromWorker = false;
-            //using (ServiceSecurityContext.Current.WindowsIdentity.Impersonate())
-            //{
-            //    SecurityIdentifier sid = System.ServiceModel.ServiceSecurityContext.Current.WindowsIdentity.User;
-            //    string newData = sid.ToString() + ";" + newVersion;
-            //    if (_dbAccess.HasRightToModify(id, sid.ToString()))
-            //    {
-            //        ChooseWorkerAndSend(type, id, newVersion, ref retValFromWorker);
-            //    }
-            //}
+            bool retValFromWorker = false;
+            SecurityIdentifier sid = System.ServiceModel.ServiceSecurityContext.Current.WindowsIdentity.User;
+            string newData = "SID:" + sid.ToString() + ";" + newVersion;
+            if (_dbAccess.HasRightToModify(id, sid.ToString()))
+            {
+                ChooseWorkerAndSend(type, id, newData, ref retValFromWorker);
+
+            }
             Console.WriteLine("Modify called on LB. ");
-            return result;
+            //return retValFromWorker;
+            return retVals[currentIdx];
         }
         /// <summary>
         /// Nalazi slobodnog workera sa najmanjim costID i prosledjuje mu podatke za obradu.
@@ -59,28 +75,38 @@ namespace LoadBalancer
         /// <param name="retVal">Povratna vrednost koja se odnosi na uspesnost workerove radnje</param>
         public void ChooseWorkerAndSend(ModifyType type, string id, string data, ref bool retVal)
         {
-            //prodji kroz sve workere; proveri onog koji ima najmanji costID; ako je zauzet, trazi sledeceg; ako ne, prosledi mu klijentske podatke
-            int cnt = 0;
-            int nbOfWorkers = IsBusy.Count();
-            if (nbOfWorkers > 0)
+            bool found = false;
+            while (!found)
             {
-                foreach (var item in IsBusy)
+                //prodji kroz sve workere; proveri onog koji ima najmanji costID; ako je zauzet, trazi sledeceg; ako ne, prosledi mu klijentske podatke
+                int cnt = 0;
+                int nbOfWorkers = isBusy.Count();
+                if (nbOfWorkers > 0)
                 {
-                    if (item)
-                        cnt++;
+                    foreach (var item in isBusy)
+                    {
+                        if (item)
+                            cnt++;
+                        else
+                            break;
+                    }
+                    if (cnt != nbOfWorkers)
+                    {
+                        found = true;
+                        tasks.Add(Task.Run(() => Worker(type, id, data, cnt)));
+                        tasks[cnt].Wait();
+                        currentIdx = cnt;
+                        retVal = retVals[currentIdx];
+                    }
                     else
-                        break;
+                        //nema slobodnih workera, pa se mora cekati da se neko oslobodi.
+                        Thread.Sleep(200);
                 }
-                if (cnt != nbOfWorkers)
-                    Worker(type, id, data, cnt, ref retVal);
                 else
-                    //nema slobodnih workera, pa se mora cekati da se neko oslobodi.
+                {
+                    //nema workera uopste - onda cekam da se neki ubaci.
                     Thread.Sleep(200);
-            }
-            else
-            {
-                //nema workera uopste - onda cekam da se neki ubaci.
-                Thread.Sleep(200);
+                }
             }
         }
 
@@ -92,13 +118,13 @@ namespace LoadBalancer
         /// <param name="newData"> Podaci za upis u bazu, LB je dodao na njih klijentov sid</param>
         /// <param name="rbr"> Redni broj pod kojim se isti proces nalazi u listi vrednosti gde je oznaceno da li je slobodan ili ne</param>
         /// <returns></returns>
-        public bool Worker(ModifyType type, string id, string newData, int rbr, ref bool retVal)
+        public bool Worker(ModifyType type, string id, string newData, int rbr)
         {
             while (true)
             {
-                if (!IsBusy[rbr])
+                if (!isBusy[rbr])
                 {
-                    IsBusy[rbr] = true;
+                    isBusy[rbr] = true;
                     bool result = false;
                     if (type == ModifyType.Delete)
                     {
@@ -108,8 +134,9 @@ namespace LoadBalancer
                     {
                         result = _dbAccess.Edit(id, newData);
                     }
-                    IsBusy[rbr] = false;
-                    retVal = result;
+                    isBusy[rbr] = false;
+                    retVals[rbr] = result;
+                    return result;
                 }
                 Thread.Sleep(200);
             }

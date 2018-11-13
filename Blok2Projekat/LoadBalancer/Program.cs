@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.Text;
 using System.Threading.Tasks;
 using WCFCommon;
-
 namespace LoadBalancer
 {
     class Program
@@ -19,6 +19,9 @@ namespace LoadBalancer
             string address = "net.tcp://localhost:9000/LoadBalancerService";
 
             ServiceHost host = new ServiceHost(typeof(LoadBalancerServices));
+
+            /*ServiceAuthorizationBehavior MyServiceAuthoriationBehavior = host.Description.Behaviors.Find<ServiceAuthorizationBehavior>();
+            MyServiceAuthoriationBehavior.ImpersonateCallerForAllOperations = true;*/
             host.AddServiceEndpoint(typeof(ILoadBalanceComms), binding, address);
 
             host.Open();

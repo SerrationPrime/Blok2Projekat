@@ -26,7 +26,7 @@ namespace Client
 
             using (WCFClient proxy = new WCFClient(binding, new EndpointAddress(new Uri(address)), instanceContext))
             {
-                int kod = -1;
+                int kod;
                 string id;
                 string text = "";
 
@@ -35,6 +35,7 @@ namespace Client
 
                 while (true)
                 {
+                    kod = -1;
                     Console.WriteLine("1. Read()");
                     Console.WriteLine("2. Modify()");
                     Console.WriteLine("3. Subscribe()");
@@ -52,7 +53,8 @@ namespace Client
                             Console.WriteLine("Izlaz iz aplikacije...");
                             break;
                         case 1:
-                            proxy.Read();
+                            Console.WriteLine("Pokusavamo pristup bazi...\n");
+                            Console.Write(proxy.Read());
                             break;
                         case 2:
                             Console.WriteLine("1. Edit");

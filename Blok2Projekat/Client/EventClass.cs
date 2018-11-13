@@ -30,43 +30,47 @@ namespace Client
 
                     kod = rnd.Next(10);
 
+                    string eventToSend;
+
                     switch(kod)
                     {
                         case 0:
-                            proxy.Event("A");
+                            eventToSend= "A";
                             break;
                         case 1:
-                            proxy.Event("B");
+                            eventToSend = "B";
                             break;
                         case 2:
-                            proxy.Event("C");
+                            eventToSend = "C";
                             break;
                         case 3:
-                            proxy.Event("D");
+                            eventToSend = "D";
                             break;
                         case 4:
-                            proxy.Event("E");
+                            eventToSend = "E";
                             break;
                         case 5:
-                            proxy.Event("F");
+                            eventToSend = "F";
                             break;
                         case 6:
-                            proxy.Event("G");
+                            eventToSend = "G";
                             break;
                         case 7:
-                            proxy.Event("H");
+                            eventToSend = "H";
                             break;
                         case 8:
-                            proxy.Event("I");
+                            eventToSend = "I";
                             break;
                         case 9:
-                            proxy.Event("J");
+                            eventToSend = "J";
                             break;
                         default:
-                            proxy.Event("O");
+                            eventToSend = "O";
                             break;
                     }
 
+                    proxy.Event("Timestamp:" + DateTime.Now.ToString() + ";Details:" + eventToSend + ";");
+                  
                     Thread.Sleep(1000);
                 }
             }

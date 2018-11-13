@@ -25,8 +25,8 @@ namespace Client
             {
                 provera = factory.Event(generatedEvent);
                 //Event je uvek dozvoljen
-                if(provera)
-                    Console.WriteLine("Event() allowed.");
+                //if(provera)
+                    //Console.WriteLine("Event() allowed.");
             }
             catch(Exception e)
             {

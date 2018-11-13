@@ -187,7 +187,7 @@ namespace DatabaseIO
         public bool Edit(string id, string data)
         {
             bool promenjen = false;
-            string fileContent = File.ReadAllText("Database.txt");
+            string fileContent = File.ReadAllText(fName);
             string[] l;
             string[] l2;
             EventLog editingLog = new EventLog();
@@ -222,7 +222,7 @@ namespace DatabaseIO
 
                 try
                 {
-                    using (TextWriter w = new StreamWriter("Database.txt"))
+                    using (TextWriter w = new StreamWriter(fName))
                     {
                         w.Write(fileContent);
 
@@ -254,7 +254,7 @@ namespace DatabaseIO
         {
             bool obrisan = false;
 
-            string fileContent = File.ReadAllText("Database.txt");
+            string fileContent = File.ReadAllText(fName);
             string[] l;
             string[] l2;
             EventLog deletingLog = new EventLog();
@@ -292,7 +292,7 @@ namespace DatabaseIO
                 fileContent = fileContent.Replace(lineToChange + "\n", string.Empty + '\r');
                 try
                 {
-                    using (TextWriter w = new StreamWriter("Database.txt"))
+                    using (TextWriter w = new StreamWriter(fName))
                     {
                         w.Write(fileContent);
 
@@ -319,23 +319,29 @@ namespace DatabaseIO
         {
             bool result = false;
 
-            using (StreamReader sr = new StreamReader(File.OpenRead("Database.txt")))
+            using (StreamReader sr = new StreamReader(File.OpenRead(fName)))
             {
                 string currentId = String.Empty;
                 string line = String.Empty;
                 string[] parts = { };
 
-                while((line = sr.ReadLine()) != null && !currentId.Equals(id))
+                while ((line = sr.ReadLine()) != null && !currentId.Equals("ID:"+id))
                 {
                     parts = line.Split(';');
                     // id ; sid ; timestemp ; detail 
                     // 0     1        2         3
                     currentId = parts[0];
                 }
-
-                string CurrentSID = parts[1];
-                if (CurrentSID.Equals(sid))
-                    result = true;               
+                if (parts.Count() > 0)
+                {
+                    string CurrentSID = parts[1];
+                    if (CurrentSID.Equals("SID:"+sid))
+                        result = true;
+                }
+                else
+                {
+                    Console.WriteLine("Database is empty.");
+                }
             }
 
             return result;
@@ -361,7 +367,7 @@ namespace DatabaseIO
             }
             else
             {
-                Console.WriteLine("Ne pravilno poslat podatak.");
+                Console.WriteLine("Nepravilno poslat podatak.");
                 Console.WriteLine("Podatak mora biti formata SID:X;Timestamp:Y;Details:Z");
             }
 
