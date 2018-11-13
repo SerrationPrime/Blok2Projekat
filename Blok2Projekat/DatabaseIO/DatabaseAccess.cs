@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DatabaseIO
@@ -40,7 +41,18 @@ namespace DatabaseIO
                 long sanChk = new FileInfo(fileName).Length;
                 if (new FileInfo(fileName).Length != 0)
                 {
-                    currentId = Int32.Parse(File.ReadLines(fileName).Last().Split(';')[0].Split(':')[1]);
+                    while (true)
+                    {
+                        try
+                        {
+                            currentId = Int32.Parse(File.ReadLines(fileName).Last().Split(';')[0].Split(':')[1]);
+                            break;
+                        }
+                        catch (IOException)
+                        {
+                            Thread.Sleep(1000);
+                        }
+                    }
                     currentId++;
                 }
                 else
@@ -70,64 +82,84 @@ namespace DatabaseIO
             if (sid.Equals(string.Empty))
             {
                 readingLog.WriteEntry("User sent a request to read all information from the database.\n");
-                try
+                while (true)
                 {
-                    using (TextReader tr = new StreamReader(fName))
+                    try
                     {
-                        string line;
-                        // Read and display lines from the file until the end of 
-                        // the file is reached.
-                        while ((line = tr.ReadLine()) != null)
+                        using (TextReader tr = new StreamReader(fName))
                         {
-                            returnedValue += line;
-                            returnedValue += Environment.NewLine;
+                            string line;
+                            // Read and display lines from the file until the end of 
+                            // the file is reached.
+                            while ((line = tr.ReadLine()) != null)
+                            {
+                                returnedValue += line;
+                                returnedValue += Environment.NewLine;
+                            }
+                            tr.Close();
+                            readingLog.WriteEntry("All users have been read.");
+                            break;
                         }
-                        tr.Close();
-                        readingLog.WriteEntry("All users have been read.");
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("There was an error: " + e.Message);
-                    return "Error";
+                    catch (IOException ex)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    catch (Exception e)
+                    {
+
+                        Console.WriteLine("There was an error: " + e.Message);
+                        returnedValue = "Error";
+                        break;
+                    }
                 }
             }
             else
             {
                 readingLog.WriteEntry("User sent a request to read one events from the database.\n");
-                try
+                while (true)
                 {
-                    using (TextReader tr = new StreamReader(fName))
+                    try
                     {
-                        string line;
-                        // Read and display lines from the file until the end of 
-                        // the file is reached.
-                        while ((line = tr.ReadLine()) != null)
+                        using (TextReader tr = new StreamReader(fName))
                         {
-                            redString = line.Split(';');
-                            redString2 = redString[1].Split(':');
-
-                            if (sid.Equals(redString2[1]))
+                            string line;
+                            // Read and display lines from the file until the end of 
+                            // the file is reached.
+                            while ((line = tr.ReadLine()) != null)
                             {
-                                returnedValue += line;
-                                returnedValue += Environment.NewLine;
-                                readString = "Successfully read an event with Server Id:" + sid + ".\n";
-                                readingLog.WriteEntry(readString);
+                                redString = line.Split(';');
+                                redString2 = redString[1].Split(':');
+
+                                if (sid.Equals(redString2[1]))
+                                {
+                                    returnedValue += line;
+                                    returnedValue += Environment.NewLine;
+                                    readString = "Successfully read an event with Server Id:" + sid + ".\n";
+                                    readingLog.WriteEntry(readString);
+                                }
                             }
-                        }
-                        tr.Close();
-                        if (returnedValue.Equals(string.Empty))
-                        {
-                            readString = "User requested to read an event with Server Id:" + sid + ", but there was no such event.\n";
-                            readingLog.WriteEntry(readString);
-                            return ("There is no event with this id");
+                            tr.Close();
+                            if (returnedValue.Equals(string.Empty))
+                            {
+                                readString = "User requested to read an event with Server Id:" + sid + ", but there was no such event.\n";
+                                readingLog.WriteEntry(readString);
+                                returnedValue = ("There is no event with this id");
+                            }
+                            break;
                         }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("There was an error: " + e.Message);
-                    return "Error";
+                    catch (IOException ex)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    catch (Exception e)
+                    {
+
+                        Console.WriteLine("There was an error: " + e.Message);
+                        returnedValue = "Error";
+                        break;
+                    }
                 }
             }
 
@@ -140,8 +172,8 @@ namespace DatabaseIO
         /// <returns>True u slucaju pravilnog upisa, inace false.</returns>
         public bool Write(string data)
         {
-            bool napisano = false;
-            string upisivanString = string.Empty;
+            bool written = false;
+            string writtenString = string.Empty;
             EventLog writingLog = new EventLog();
             writingLog.Source = "MySource";
             string writeString = "";
@@ -153,29 +185,39 @@ namespace DatabaseIO
 
 
             writingLog.WriteEntry("User requested Write function");
-            try
+            while (true)
             {
-                using (TextWriter tw = new StreamWriter(fName, true))
+                try
                 {
-                    upisivanString = "ID:" + currentId + ";" + data;
+                    using (TextWriter tw = new StreamWriter(fName, true))
+                    {
+                        writtenString = "ID:" + currentId + ";" + data;
 
-                    tw.WriteLine(upisivanString);
-                    currentId++;
+                        tw.WriteLine(writtenString);
+                        currentId++;
 
-                    napisano = true;
-                    writeString = "Data:" + data + "with an Id: " + (currentId - 1) + " Successfully written in the database";
-                    writingLog.WriteEntry(writeString);
+                        written = true;
+                        writeString = "Data:" + data + "with an Id: " + (currentId - 1) + " Successfully written in the database";
+                        writingLog.WriteEntry(writeString);
 
-                    tw.Close();
+                        tw.Close();
+
+                        break;
+                    }
+                }
+                catch (IOException ex)
+                {
+                    Thread.Sleep(1000);
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine("There was an error: " + e.Message);
+                    written = false;
+                    break;
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("There was an error: " + e.Message);
-                napisano = false;
-            }
-
-            return napisano;
+            return written;
         }
 
         /// <summary>
@@ -186,8 +228,8 @@ namespace DatabaseIO
         /// <returns>True u slucaju pravilnog upisa, inace false.</returns>
         public bool Edit(string id, string data)
         {
-            bool promenjen = false;
-            string fileContent = File.ReadAllText(fName);
+            bool changed = false;
+            string fileContent = File.ReadAllText("Database.txt");
             string[] l;
             string[] l2;
             EventLog editingLog = new EventLog();
@@ -206,36 +248,45 @@ namespace DatabaseIO
                 if (id.Equals(l2[1]))
                 {
                     lineToChange = line;
-                    promenjen = true;
+                    changed = true;
                     editingLog.WriteEntry("Data for Requested Id found");
                     break;
                 }
                 else
                 {
-                    promenjen = false;
+                    changed = false;
                 }
             }
 
-            if (promenjen == true)
+            if (changed == true)
             {
-                fileContent = fileContent.Replace(lineToChange, "ID:" + id + ";" + data + '\r');
-
-                try
+                fileContent = fileContent.Replace(lineToChange, "ID:" + id + ";" + data);
+                while (true)
                 {
-                    using (TextWriter w = new StreamWriter(fName))
+                    try
                     {
-                        w.Write(fileContent);
+                        using (TextWriter w = new StreamWriter("Database.txt"))
+                        {
+                            w.Write(fileContent);
 
-                        w.Close();
+                            w.Close();
+                        }
+
+                        editString = "Data changed for an event in the database with Id: " + id;
+                        editingLog.WriteEntry(editString);
+                        break;
                     }
+                    catch (IOException ex)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    catch (Exception e)
+                    {
 
-                    editString = "Data changed for an event in the database with Id: " + id;
-                    editingLog.WriteEntry(editString);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("There was an error: " + e.Message);
-                    promenjen = false;
+                        Console.WriteLine("There was an error: " + e.Message);
+                        changed = false;
+                        break;
+                    }
                 }
             }
             else
@@ -243,7 +294,7 @@ namespace DatabaseIO
                 editingLog.WriteEntry("Data not changed because the event with the requested id doesn't exist");
             }
 
-            return promenjen;
+            return changed;
         }
         /// <summary>
         /// Brisanje linije podataka u bazi podataka na koju je DatabaseAccess inicijalizovan.
@@ -252,9 +303,9 @@ namespace DatabaseIO
         /// <returns>True u slucaju uspesnog brisanja, inace false.</returns>
         public bool Delete(string id)
         {
-            bool obrisan = false;
+            bool deleted = false;
 
-            string fileContent = File.ReadAllText(fName);
+            string fileContent = File.ReadAllText("Database.txt");
             string[] l;
             string[] l2;
             EventLog deletingLog = new EventLog();
@@ -276,33 +327,43 @@ namespace DatabaseIO
                     if (id.Equals(l2[1]))
                     {
                         lineToChange = line;
-                        obrisan = true;
+                        deleted = true;
                         deletingLog.WriteEntry("Data for Requested Id found");
                         break;
                     }
                     else
                     {
-                        obrisan = false;
+                        deleted = false;
                     }
                 }
             }
 
-            if (obrisan == true)
+            if (deleted == true)
             {
-                fileContent = fileContent.Replace(lineToChange + "\n", string.Empty + '\r');
-                try
+                fileContent = fileContent.Replace(lineToChange + "\n", string.Empty);
+                while (true)
                 {
-                    using (TextWriter w = new StreamWriter(fName))
+                    try
                     {
-                        w.Write(fileContent);
+                        using (TextWriter w = new StreamWriter("Database.txt"))
+                        {
+                            w.Write(fileContent);
 
-                        w.Close();
+                            w.Close();
+                        }
+                        break;
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("There was an error: " + e.Message);
-                    obrisan = false;
+                    catch (IOException ex)
+                    {
+                        Thread.Sleep(1000);
+                    }
+                    catch (Exception e)
+                    {
+
+                        Console.WriteLine("There was an error: " + e.Message);
+                        deleted = false;
+                        break;
+                    }
                 }
                 deleteString = "Data deleted for an event in the database with Id: " + id;
                 deletingLog.WriteEntry(deleteString);
@@ -312,36 +373,30 @@ namespace DatabaseIO
                 deletingLog.WriteEntry("Data not deleted because the event with the requested id doesn't exist");
             }
 
-            return obrisan;
+            return deleted;
         }
 
         public bool HasRightToModify(string id, string sid)
         {
             bool result = false;
 
-            using (StreamReader sr = new StreamReader(File.OpenRead(fName)))
+            using (StreamReader sr = new StreamReader(File.OpenRead("Database.txt")))
             {
                 string currentId = String.Empty;
                 string line = String.Empty;
                 string[] parts = { };
 
-                while ((line = sr.ReadLine()) != null && !currentId.Equals("ID:"+id))
+                while ((line = sr.ReadLine()) != null && !currentId.Equals(id))
                 {
                     parts = line.Split(';');
                     // id ; sid ; timestemp ; detail 
                     // 0     1        2         3
                     currentId = parts[0];
                 }
-                if (parts.Count() > 0)
-                {
-                    string CurrentSID = parts[1];
-                    if (CurrentSID.Equals("SID:"+sid))
-                        result = true;
-                }
-                else
-                {
-                    Console.WriteLine("Database is empty.");
-                }
+
+                string CurrentSID = parts[1];
+                if (CurrentSID.Equals(sid))
+                    result = true;
             }
 
             return result;
@@ -349,7 +404,7 @@ namespace DatabaseIO
 
         public bool CheckData(string data)
         {
-            bool proveren = false;
+            bool chked = false; //Nije checked jer je checked rezervisana rec
             string[] chkString;
 
             chkString = data.Split(';');
@@ -362,16 +417,16 @@ namespace DatabaseIO
 
                 if (r1.Match(chkString[0]).Success && r2.Match(chkString[1]).Success && r3.Match(chkString[2]).Success)
                 {
-                    proveren = true;
+                    chked = true;
                 }
             }
             else
             {
-                Console.WriteLine("Nepravilno poslat podatak.");
+                Console.WriteLine("Ne pravilno poslat podatak.");
                 Console.WriteLine("Podatak mora biti formata SID:X;Timestamp:Y;Details:Z");
             }
 
-            return proveren;
+            return chked;
         }
     }
 }
