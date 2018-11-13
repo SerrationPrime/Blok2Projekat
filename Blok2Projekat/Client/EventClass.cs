@@ -70,7 +70,7 @@ namespace Client
                     }
 
                     proxy.Event("Timestamp:" + DateTime.Now.ToString() + ";Details:" + eventToSend + ";");
-
+                  
                     Thread.Sleep(1000);
                 }
             }

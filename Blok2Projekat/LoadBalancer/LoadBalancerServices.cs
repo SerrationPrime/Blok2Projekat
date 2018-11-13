@@ -1,4 +1,4 @@
-﻿using DatabaseIO;
+using DatabaseIO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
