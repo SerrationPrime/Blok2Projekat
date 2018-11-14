@@ -22,6 +22,11 @@ namespace Client
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Windows;
             string address = "net.tcp://localhost:9292/ServiceComms";
 
+            //Za rad sa velikim bazama podataka
+            binding.MaxReceivedMessageSize = 5000000;
+            binding.MaxBufferSize = 5000000;
+            binding.MaxBufferPoolSize = 5000000;
+
             InstanceContext instanceContext = new InstanceContext(new ServiceCallback());
 
             using (WCFClient proxy = new WCFClient(binding, new EndpointAddress(new Uri(address)), instanceContext))
@@ -29,13 +34,12 @@ namespace Client
                 int code;
                 string id;
                 string text = "";
+                int op = -1;
 
                 
                 th.Start();
 
-                Console.ReadLine();
-
-                while (true)
+                while (op!=0)
                 {
                     code = -1;
                     Console.WriteLine("1. Read()");
@@ -44,15 +48,13 @@ namespace Client
                     Console.WriteLine("0. EXIT");
                     Console.WriteLine("\nEnter the operation code:");
 
-                    int op = Int32.Parse(Console.ReadLine());
-
-                    if (op == 0)
-                        break;
+                    if (!Int32.TryParse(Console.ReadLine(), out op))
+                        op = -1;
 
                     switch (op)
                     {
                         case 0:
-                            Console.WriteLine("Exit the application...");
+                            Console.WriteLine("Exitting the application...");
                             break;
                         case 1:
                             Console.WriteLine("Trying to access the database...\n");
@@ -64,18 +66,31 @@ namespace Client
                             code = Int32.Parse(Console.ReadLine());
                             if (code == 1)
                             {
-                                Console.WriteLine("Enter the ID data that changes:");
+                                Console.WriteLine("Enter the ID of the entry to change:");
                                 id = Console.ReadLine();
-                                Console.WriteLine("Enter new text:");
-                                text = Console.ReadLine();
-                                string message = "";
-                                message += "SID:" + System.ServiceModel.ServiceSecurityContext.Current.WindowsIdentity.User.ToString() + ";Timestamp:" + DateTime.Now.ToString() + ";Details:" + text + ";";
+
+                                bool validInput = false;
+
+                                while (!validInput)
+                                {
+                                    Console.WriteLine("Enter new event data (text cannot contains colons or semicolons):");
+                                    text = Console.ReadLine();
+
+                                    if (text.Contains(":") || text.Contains(";"))
+                                    {
+                                        Console.WriteLine("This data contains a colon or a semicolon. Please try again.");
+                                    }
+                                    else validInput = true;
+                                }
+
+                                string message = "SID:" + System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString() + ";Timestamp:" + DateTime.Now.ToString() + ";Details:" + text + ";";
                                 proxy.Modify(ModifyType.Edit, id, message);
                             }
                             else if (code == 2)
                             {
-                                Console.WriteLine("Enter the ID data that delete:");
+                                Console.WriteLine("Enter the ID of the entry to delete:");
                                 id = Console.ReadLine();
+                                text = "SID:" + System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
                                 proxy.Modify(ModifyType.Delete, id, text);
                             }
                             else

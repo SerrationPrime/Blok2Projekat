@@ -57,7 +57,11 @@ namespace UserLogic
                 }
             }
         }
-
+        /// <summary>
+        /// Override IPrincipal, postoji cisto da bi se osigurala implementacija interfejsa i ne koristi se u programu.
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
         public bool IsInRole(string role)
         {
             bool retVal = false;
@@ -73,6 +77,11 @@ namespace UserLogic
             return retVal;
         }
 
+        /// <summary>
+        /// Provera permisije datog CustomPrincipal-a.
+        /// </summary>
+        /// <param name="permission">Ime dozvole.</param>
+        /// <returns>True u slucaju da ima tu dozvolu u listi Permissions, inace false.</returns>
         public bool HasPermission(string permission)
         {
             bool retVal = false;

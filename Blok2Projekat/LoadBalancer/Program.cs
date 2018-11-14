@@ -10,6 +10,8 @@ namespace LoadBalancer
 {
     class Program
     {
+
+        public static bool ProgramActive = true;
         static void Main(string[] args)
         {
             NetTcpBinding binding = new NetTcpBinding();
@@ -24,12 +26,31 @@ namespace LoadBalancer
             MyServiceAuthoriationBehavior.ImpersonateCallerForAllOperations = true;*/
             host.AddServiceEndpoint(typeof(ILoadBalanceComms), binding, address);
 
+            // Omogucavamo poboljsani debug mode, kod postoji iskljucivo za debug svrhe
+            ServiceDebugBehavior debug = host.Description.Behaviors.Find<ServiceDebugBehavior>();
+
+            if (debug == null)
+            {
+                host.Description.Behaviors.Add(
+                     new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+            }
+            else
+            {
+                // make sure setting is turned ON
+                if (!debug.IncludeExceptionDetailInFaults)
+                {
+                    debug.IncludeExceptionDetailInFaults = true;
+                }
+            }
+
             host.Open();
 
             Console.WriteLine("LoadBalancerService is started.");
             Console.WriteLine("Press <enter> to stop service...");
 
             Console.ReadLine();
+
+            ProgramActive = false;
             host.Close();
         }
     }

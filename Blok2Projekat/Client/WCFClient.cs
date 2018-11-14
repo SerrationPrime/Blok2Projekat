@@ -40,7 +40,7 @@ namespace Client
                 if (check)
                     Console.WriteLine("Modify() allowed.");
                 else
-                    Console.WriteLine("Modify() not allowed.");
+                    Console.WriteLine("Modify() was not allowed. Either the user cannot modify that element, or the database has no entry with a matching ID.");
             }
             catch (Exception e)
             {
@@ -55,7 +55,7 @@ namespace Client
             try
             {
                 check = factory.Read();
-                if (!String.IsNullOrEmpty(check))
+                if (check != "Permission error.")
                     Console.WriteLine("Read() allowed.");
                 else
                     Console.WriteLine("Read() not allowed.");
@@ -63,6 +63,14 @@ namespace Client
             catch (Exception e)
             {
                 Console.WriteLine("Error while trying to Read(). {0}", e.Message);
+            }
+            if (String.IsNullOrEmpty(check))
+            {
+                Console.WriteLine("There are no entries in the database accessible with the current privilege level.");
+            }
+            else if (check == "Permission error.")
+            {
+                check = "";
             }
             return check;
         }

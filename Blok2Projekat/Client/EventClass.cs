@@ -34,21 +34,31 @@ namespace Client
                     i++;
                 }
             }
-
-            using (WCFClient proxy = new WCFClient(binding, new EndpointAddress(new Uri(address)), instanceContext))
+            try
             {
-                int code;
-                while (true)
+                using (WCFClient proxy = new WCFClient(binding, new EndpointAddress(new Uri(address)), instanceContext))
                 {
-                    code = -1;
-                    Random rnd = new Random();
+                    int code;
+                    bool connectionActive = true;
+                    while (connectionActive)
+                    {
+                        code = -1;
+                        Random rnd = new Random();
 
-                    code = rnd.Next(10);
+                        code = rnd.Next(10);
 
-                    proxy.Event("Timestamp:" + DateTime.Now.ToString() + ";Details:" + eventToSend[code] + ";");
-
-                    Thread.Sleep(1000);
+                        if (!proxy.Event("Timestamp:" + DateTime.Now.ToString() + ";Details:" + eventToSend[code] + ";"))
+                        {
+                            connectionActive = false;
+                            Console.WriteLine("Stopping event generation.");
+                        }
+                        else Thread.Sleep(1000);
+                    }
                 }
+            }
+            catch
+            {
+                Console.WriteLine("Event generation stopped due to connection error.");
             }
         }
     }

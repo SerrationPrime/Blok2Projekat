@@ -15,3 +15,9 @@ C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\WCFCommon\obj\Debug\WCFComm
 C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\WCFCommon\obj\Debug\WCFCommon.csproj.CoreCompileInputs.cache
 C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\WCFCommon\obj\Debug\WCFCommon.dll
 C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\WCFCommon\obj\Debug\WCFCommon.pdb
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\WCFCommon\bin\Debug\WCFCommon.dll
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\WCFCommon\bin\Debug\WCFCommon.pdb
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\WCFCommon\obj\Debug\WCFCommon.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\WCFCommon\obj\Debug\WCFCommon.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\WCFCommon\obj\Debug\WCFCommon.dll
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\WCFCommon\obj\Debug\WCFCommon.pdb

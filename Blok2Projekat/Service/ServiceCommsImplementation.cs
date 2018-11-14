@@ -14,13 +14,13 @@ namespace Service
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
     public class ServiceCommsImplementation : IServiceComms
     {
-        /// <summary>
-        /// 
-        /// </summary>
         DatabaseAccess accessPoint = new DatabaseAccess("../../../Database.txt");
         ILoadBalanceComms proxy;
 
         public delegate void DBChangeEventHandler(object sender, string eventDescription);
+        /// <summary>
+        /// Skup svih prosledjenih delegata, pozivanje ovoga pozivamo dogadjaje na svim subscribovanim klijentima
+        /// </summary>
         public static event DBChangeEventHandler DBChangeEvent;
 
         IServiceCallback ServiceCallback = null;
@@ -46,9 +46,9 @@ namespace Service
             {
                 accessPoint.Write(messageToSend);
             }
-            catch
+            catch (Exception e)
             {
-                return false;
+                throw e;
             }
             if (DBChangeEvent!=null)
                 DBChangeEvent(this, "User with SID " + GetSid() + " added event: " + generatedEvent + ".");
@@ -63,9 +63,9 @@ namespace Service
                 {
                     result = proxy.Modify(type, id, newVersion);
                 }
-                catch
+                catch (Exception e)
                 {
-                    return result;
+                    throw e;
                 }
 
             }
@@ -86,23 +86,33 @@ namespace Service
 
         public string Read()
         {
-            if (HasPermission(Permission.Supervise))
+            try
             {
-                return accessPoint.Read("");
+                if (HasPermission(Permission.Supervise))
+                {
+                    return accessPoint.Read("");
+                }
+                else if (HasPermission(Permission.Read))
+                {
+                    return accessPoint.Read(GetSid());
+                }
             }
-            else if (HasPermission(Permission.Read))
+            catch (Exception e)
             {
-                return accessPoint.Read(GetSid());
+                throw e;
             }
-            else return "No read permission.\n";
+            return "Permission error.";
         }
 
         public bool Subscribe()
         {
             if (HasPermission(Permission.Subscribe))
             {
+                //Prvo, pokupimo objekat koji se odnosi na klijenta koji poziva ovu funkciju
                 ServiceCallback = OperationContext.Current.GetCallbackChannel<IServiceCallback>();
+                //Zatim, kreiramo delegat na funkciju CallbackInvoker, koji poziva funkciju koja svim subscribovanim korisnicima ispisuje podatke o promeni
                 DBEventHandler = new DBChangeEventHandler(CallbackInvoker);
+                //...i dodajemo je u DBChangeEvent, sto je skup svih delegata koje smo kreirali, i koji ih poziva svaki put kada se desi promena; vidi pozive DBChangeEvent
                 DBChangeEvent += DBEventHandler;
                 return true;
             }
@@ -120,6 +130,11 @@ namespace Service
             return System.ServiceModel.ServiceSecurityContext.Current.WindowsIdentity.User.ToString();
         }
 
+        /// <summary>
+        /// Funkcija ciji se delegati kreiraju, samo poziva PublishChanges iz callback-a
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventDescription">Opis dogadjaja.</param>
         public void CallbackInvoker(object sender, string eventDescription)
         {
             ServiceCallback.PublishChanges(eventDescription);

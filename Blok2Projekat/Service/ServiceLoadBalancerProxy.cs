@@ -14,7 +14,7 @@ namespace Service
 
         public ServiceLoadBalancerProxy(NetTcpBinding binding, string address) : base(binding, address)
         {
-            this.Credentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
+            //this.Credentials.Windows.AllowedImpersonationLevel = System.Security.Principal.TokenImpersonationLevel.Impersonation;
             factory = this.CreateChannel();
         }
         public bool Modify(ModifyType type, string id, string newVersion)
@@ -28,6 +28,7 @@ namespace Service
             catch (Exception e)
             {
                 Console.WriteLine("[Modify] ERROR = {0}", e.Message);
+                throw e;
             }
             return result;
         }

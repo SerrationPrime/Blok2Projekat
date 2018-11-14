@@ -36,3 +36,17 @@ C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\obj\Debug\Service.c
 C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\obj\Debug\Service.csproj.CopyComplete
 C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\obj\Debug\Service.exe
 C:\Users\NovakPC\Desktop\Blok2Projekat\Blok2Projekat\Service\obj\Debug\Service.pdb
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\bin\Debug\Service.exe.config
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\bin\Debug\Service.exe
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\bin\Debug\Service.pdb
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\bin\Debug\DatabaseIO.dll
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\bin\Debug\UserLogic.dll
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\bin\Debug\WCFCommon.dll
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\bin\Debug\DatabaseIO.pdb
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\bin\Debug\UserLogic.pdb
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\bin\Debug\WCFCommon.pdb
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\obj\Debug\Service.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\obj\Debug\Service.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\obj\Debug\Service.csproj.CopyComplete
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\obj\Debug\Service.exe
+C:\Users\Administrator\Desktop\Blok2Projekat-master\Blok2Projekat\Service\obj\Debug\Service.pdb
