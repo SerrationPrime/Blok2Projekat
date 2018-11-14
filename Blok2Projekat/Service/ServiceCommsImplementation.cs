@@ -88,7 +88,7 @@ namespace Service
         {
             try
             {
-                if (HasPermission(Permission.Supervise))
+                if (HasPermission(Permission.Supervise) || HasPermission(Permission.Subscribe))
                 {
                     return accessPoint.Read("");
                 }
