@@ -37,7 +37,7 @@ namespace LoadBalancer
         public static List<Task<bool>> tasks = new List<Task<bool>>();
         public static List<bool> retVals = new List<bool>() { false, false, false, false };
         public static List<Argument> arguments = new List<Argument>();
-        public static List<bool> isBusy = new List<bool>() { false, false, false, false };   //pravim 4 procesa i 4 bool-a, test
+        public static List<bool> isBusy = new List<bool>() { false, false, false, false };   //make 4 bools and 4 processes, test
         public static int currentIdx = 0;
         private int _maxNbOftasks = 4;
 
@@ -54,15 +54,15 @@ namespace LoadBalancer
         public bool Modify(ModifyType type, string id, string newVersion)
         {
             bool retValFromWorker = false;
-            SecurityIdentifier sid = System.ServiceModel.ServiceSecurityContext.Current.WindowsIdentity.User;
-            string newData = "SID:" + sid.ToString() + ";" + newVersion;
-            if (_dbAccess.HasRightToModify(id, sid.ToString()))
+            //get sid from newWersion data.
+            string[] lines = newVersion.Split(';');     //newVersion: SID:xxx;Timestamp:xxx;Details:xxx;
+            string[] sidColumn = lines[0].Split(':');   //SID xxx
+            string sid = sidColumn[1];                  //xxx
+            if (_dbAccess.HasRightToModify(id, sid))
             {
-                ChooseWorkerAndSend(type, id, newData, ref retValFromWorker);
-
+                ChooseWorkerAndSend(type, id, newVersion, ref retValFromWorker);
             }
             Console.WriteLine("Modify called on LB. ");
-            //return retValFromWorker;
             return retVals[currentIdx];
         }
         /// <summary>
@@ -78,7 +78,7 @@ namespace LoadBalancer
             bool found = false;
             while (!found)
             {
-                //prodji kroz sve workere; proveri onog koji ima najmanji costID; ako je zauzet, trazi sledeceg; ako ne, prosledi mu klijentske podatke
+                //go through all workers; check the one with smalest costID; if busy, search for next one; if not, give him the client data for processing
                 int cnt = 0;
                 int nbOfWorkers = isBusy.Count();
                 if (nbOfWorkers > 0)
@@ -99,12 +99,12 @@ namespace LoadBalancer
                         retVal = retVals[currentIdx];
                     }
                     else
-                        //nema slobodnih workera, pa se mora cekati da se neko oslobodi.
+                        //there are no free workers, wait for some worker to become free.
                         Thread.Sleep(200);
                 }
                 else
                 {
-                    //nema workera uopste - onda cekam da se neki ubaci.
+                    //there are no workers at all - wait for worker to be added.
                     Thread.Sleep(200);
                 }
             }

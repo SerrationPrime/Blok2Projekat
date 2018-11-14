@@ -54,7 +54,7 @@ namespace Service
                 DBChangeEvent(this, "User with SID " + GetSid() + " added event: " + generatedEvent + ".");
             return true;     
         }
-        public bool Modify(ModifyType type, string id, string newVersion)
+        public bool Modify(ModifyType type, string id, string newVersion)   //newVersion contains SID. Client sent it like that.
         {
             bool result = false;
             if (HasPermission(Permission.Modify))

@@ -69,7 +69,7 @@ namespace Client
                                 Console.WriteLine("Enter new text:");
                                 text = Console.ReadLine();
                                 string message = "";
-                                message += "Timestamp:" + DateTime.Now.ToString() + ";Details:" + text + ";";
+                                message += "SID:" + System.ServiceModel.ServiceSecurityContext.Current.WindowsIdentity.User.ToString() + ";Timestamp:" + DateTime.Now.ToString() + ";Details:" + text + ";";
                                 proxy.Modify(ModifyType.Edit, id, message);
                             }
                             else if (code == 2)
